@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #050510;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Efecto de resplandor para textos y botones */
+.neon-text-cyan {
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
+}
+.neon-text-magenta {
+  text-shadow: 0 0 10px rgba(255, 0, 234, 0.7);
+}
