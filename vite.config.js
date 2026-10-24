@@ -1,7 +1,39 @@
-import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: 'inline',
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      manifest: {
+        id: '/',
+        name: 'Comunifest',
+        short_name: 'Comunifest',
+        description: 'Somos una familia, un solo corazón.',
+        theme_color: '#0f0f11',
+        background_color: '#0f0f11',
+        display: 'standalone',
+        start_url: '/',
+        scope: '/',
+        icons: [
+          {
+            src: 'pwa-512x512.png', // Sigue usando el mismo nombre de archivo que tienes guardado
+            sizes: '2048x2048',     // AQUÍ ESTÁ LA MAGIA: Le decimos su tamaño real
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '2048x2048',
+            type: 'image/png',
+            purpose: 'maskable'
+          }
+        ]
+      }
+    })
+  ]
 })
