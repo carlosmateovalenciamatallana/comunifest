@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Camera, Image as ImageIcon, Upload } from 'lucide-react';
+import { Calendar, Clock, Camera, Image as ImageIcon, Upload, MapPin, Navigation } from 'lucide-react';
 import { supabase } from './supabase';
 
 export default function App() {
@@ -38,7 +38,7 @@ export default function App() {
 
   // OBTENER FOTOS Y ACTIVAR TIEMPO REAL CON SUPABASE
   useEffect(() => {
-    // 1. Cargar las fotos que ya existen
+    // Cargar las fotos que ya existen
     const fetchPhotos = async () => {
       const { data } = await supabase
         .from('galeria')
@@ -49,7 +49,7 @@ export default function App() {
     };
     fetchPhotos();
 
-    // 2. Suscribirse a cambios en tiempo real (El Live Feed)
+    // Suscribirse a cambios en tiempo real (El Live Feed)
     const channel = supabase
       .channel('schema-db-changes')
       .on(
@@ -77,19 +77,19 @@ export default function App() {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
 
-      // 1. Subir la imagen física al Storage
+      // Subir la imagen física al Storage
       const { error: uploadError } = await supabase.storage
         .from('fotos_evento')
         .upload(fileName, file);
 
       if (uploadError) throw uploadError;
 
-      // 2. Obtener la URL pública de la imagen que acabamos de subir
+      // Obtener la URL pública de la imagen que acabamos de subir
       const { data } = supabase.storage
         .from('fotos_evento')
         .getPublicUrl(fileName);
 
-      // 3. Guardar esa URL en la base de datos para que dispare el tiempo real
+      // Guardar esa URL en la base de datos para que dispare el tiempo real
       const { error: dbError } = await supabase
         .from('galeria')
         .insert([{ url: data.publicUrl }]);
@@ -106,12 +106,12 @@ export default function App() {
 
   const scheduleData = [
     { hora: "08:30 AM", actividad: "Salida Buses desde Manizales", detalle: "Punto de encuentro principal" },
-    { hora: "09:30 AM", actividad: "Registro e Ingreso en Finca", detalle: "Entrega de manillas" },
-    { hora: "10:15 AM", actividad: "Warm-up / Bienvenida", detalle: "Integración inicial" },
-    { hora: "10:45 AM", actividad: "Tiempo de Alabanza", detalle: "Música en vivo" },
-    { hora: "11:45 AM", actividad: "Prédica / Plenaria", detalle: "Mensaje principal" },
-    { hora: "01:00 PM", actividad: "Almuerzo y Networking", detalle: "Tiempo libre para compartir" },
-    { hora: "02:30 PM", actividad: "Actividades de la Tarde", detalle: "Juegos y dinámicas" },
+    { hora: "09:00 AM", actividad: "Registro e Ingreso en Finca", detalle: "Entrega de manillas" },
+    { hora: "09:30 AM", actividad: "Bienvenida", detalle: "Integración inicial" },
+    { hora: "10:00 AM", actividad: "Tiempo de Alabanza", detalle: "Música en vivo" },
+    { hora: "11:00 AM", actividad: "Enseñanza", detalle: "Tiempo de Palabra" },
+    { hora: "12:00 PM", actividad: "Almuerzo", detalle: "Tiempo libre para almorzar y compartir" },
+    { hora: "02:00 PM", actividad: "Actividades de la Tarde", detalle: "Juegos y dinámicas" },
     { hora: "05:30 PM", actividad: "Retorno a Manizales", detalle: "Abordaje puntual de buses" }
   ];
 
@@ -156,7 +156,10 @@ export default function App() {
               </div>
             </div>
 
+            {/* Tarjetas de Información */}
             <div className="space-y-4 pt-2">
+              
+              {/* 1. Tarjeta de Fecha */}
               <div className="group flex items-center gap-4 bg-gray-900/30 border border-gray-800/50 p-5 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-neonCyan/50 hover:bg-gray-900/50">
                 <div className="bg-black p-3 rounded-full border border-neonCyan/30 group-hover:shadow-[0_0_15px_rgba(0,243,255,0.3)] transition-all">
                   <Calendar className="text-neonCyan w-6 h-6" />
@@ -167,6 +170,7 @@ export default function App() {
                 </div>
               </div>
 
+              {/* 2. Tarjeta de Horario */}
               <div className="group flex items-center gap-4 bg-gray-900/30 border border-gray-800/50 p-5 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-neonMagenta/50 hover:bg-gray-900/50">
                 <div className="bg-black p-3 rounded-full border border-neonMagenta/30 group-hover:shadow-[0_0_15px_rgba(255,0,234,0.3)] transition-all">
                   <Clock className="text-neonMagenta w-6 h-6" />
@@ -176,6 +180,43 @@ export default function App() {
                   <p className="font-semibold text-gray-200 text-lg">8:00 am - 6:00 pm</p>
                 </div>
               </div>
+
+             {/* 3. Tarjeta de Ubicación con MAPA INTERACTIVO */}
+              <div className="group bg-gray-900/30 border border-gray-800/50 p-5 rounded-2xl backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-gray-900/50 overflow-hidden">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="bg-black p-3 rounded-full border border-gray-600 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-all">
+                    <MapPin className="text-white w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs text-gray-400 font-bold tracking-wider mb-1">PUNTO DE ENCUENTRO</p>
+                    <p className="font-semibold text-gray-200 text-lg leading-tight mb-1">Sede Comunidad Cristiana de Fé</p>
+                    <p className="text-sm text-gray-500">Manizales, Caldas</p>
+                  </div>
+                </div>
+
+                {/* Contenedor del Mapa Incrustado */}
+                <div className="w-full rounded-xl overflow-hidden border border-gray-700 mb-4 bg-gray-800">
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d295.3855670496733!2d-75.5184498572379!3d5.068280550912243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e476f9fc9a7e9c5%3A0xa94da6953aab8cc6!2sComunidad%20Cristiana%20de%20Fe!5e0!3m2!1ses-419!2sco!4v1791516057204!5m2!1ses-419!2sco" 
+                    width="100%" 
+                    height="220" 
+                    style={{ border: 0 }} 
+                    allowFullScreen="" 
+                    loading="lazy" 
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  ></iframe>
+                </div>
+                
+                <a 
+                  href="https://maps.app.goo.gl/7HF98yB1bQdnrebt9" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 px-4 py-2.5 rounded-xl text-sm font-bold transition-all w-full justify-center active:scale-95"
+                >
+                  <Navigation className="w-4 h-4" /> Abrir en App de GPS
+                </a>
+              </div>
+
             </div>
           </div>
         )}
