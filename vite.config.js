@@ -22,13 +22,13 @@ export default defineConfig({
         icons: [
           {
             src: 'pwa-512x512.png', // Sigue usando el mismo nombre de archivo que tienes guardado
-            sizes: '2048x2048',     // AQUÍ ESTÁ LA MAGIA: Le decimos su tamaño real
+            sizes: '512x512',     // AQUÍ ESTÁ LA MAGIA: Le decimos su tamaño real
             type: 'image/png',
             purpose: 'any'
           },
           {
             src: 'pwa-512x512.png',
-            sizes: '2048x2048',
+            sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'
           }
