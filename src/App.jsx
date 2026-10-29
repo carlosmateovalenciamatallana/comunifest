@@ -105,13 +105,17 @@ export default function App() {
   };
 
   const scheduleData = [
-    { hora: "08:30 AM", actividad: "Salida Buses desde Manizales", detalle: "Punto de encuentro principal" },
+    { hora: "07:30 AM", actividad: "Salida Buses desde Manizales", detalle: "Punto de encuentro principal" },
     { hora: "09:00 AM", actividad: "Registro e Ingreso en Finca", detalle: "Entrega de manillas" },
     { hora: "09:30 AM", actividad: "Bienvenida", detalle: "Integración inicial" },
-    { hora: "10:00 AM", actividad: "Tiempo de Alabanza", detalle: "Música en vivo" },
+    { hora: "09:45 AM", actividad: "Entrega Refrigerio", detalle: "Saludos de bienvenida y convivencia Inicial" },
+    { hora: "10:30 AM", actividad: "Tiempo de Alabanza", detalle: "Música en vivo" },
     { hora: "11:00 AM", actividad: "Enseñanza", detalle: "Tiempo de Palabra" },
     { hora: "12:00 PM", actividad: "Almuerzo", detalle: "Tiempo libre para almorzar y compartir" },
-    { hora: "02:00 PM", actividad: "Actividades de la Tarde", detalle: "Juegos y dinámicas" },
+    { hora: "12:45 PM", actividad: "Tiempo Libre", detalle: "Tiempo para compartir en familia" },
+    { hora: "01:30 PM", actividad: "Actividades de la Tarde", detalle: "Juegos y dinámicas" },
+    { hora: "04:00 PM", actividad: "Tiempo Libre", detalle: "Tiempo para compartir en familia" },
+    { hora: "05:00 PM", actividad: "Actividad de Cierre", detalle: "Oración y Cierre" },
     { hora: "05:30 PM", actividad: "Retorno a Manizales", detalle: "Abordaje puntual de buses" }
   ];
 
